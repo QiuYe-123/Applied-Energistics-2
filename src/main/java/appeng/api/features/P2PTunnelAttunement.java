@@ -143,7 +143,7 @@ public final class P2PTunnelAttunement {
         }
 
         // Tags first
-        for (var tag : trigger.getTags().toList()) {
+        for (var tag : trigger.tags().toList()) {
             var tagTunnelItem = tagTunnels.get(tag);
             if (tagTunnelItem != null) {
                 return new ItemStack(tagTunnelItem);

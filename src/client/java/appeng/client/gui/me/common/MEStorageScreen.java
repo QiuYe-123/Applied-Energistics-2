@@ -42,7 +42,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
@@ -226,7 +226,7 @@ public class MEStorageScreen<C extends MEStorageMenu>
 
     protected void handleGridInventoryEntryMouseClick(@Nullable GridInventoryEntry entry,
             int mouseButton,
-            ClickType clickType) {
+            ContainerInput clickType) {
         if (entry != null) {
             AELog.debug("Clicked on grid inventory entry serial=%s, key=%s", entry.getSerial(), entry.getWhat());
         }
@@ -236,7 +236,7 @@ public class MEStorageScreen<C extends MEStorageMenu>
         // Holding shift tries to fill the entire container, while only transferring a single unit otherwise.
         if (mouseButton == 0 && entry != null && ContainerItemStrategies.isKeySupported(entry.getWhat())) {
             InventoryAction action;
-            if (clickType != ClickType.QUICK_MOVE) {
+            if (clickType != ContainerInput.QUICK_MOVE) {
                 action = InventoryAction.FILL_ITEM; // Simple click fills item in hand or puts filled item in hand
             } else {
                 // Shift-click on fluid with an empty hand -> move filled container to player
@@ -253,7 +253,7 @@ public class MEStorageScreen<C extends MEStorageMenu>
         if (mouseButton == 1 && !menu.getCarried().isEmpty()) {
             var emptyingAction = ContainerItemStrategies.getEmptyingAction(menu.getCarried());
             if (emptyingAction != null && menu.isKeyVisible(emptyingAction.what())) {
-                menu.handleInteraction(-1, clickType == ClickType.QUICK_MOVE ? InventoryAction.EMPTY_ENTIRE_ITEM
+                menu.handleInteraction(-1, clickType == ContainerInput.QUICK_MOVE ? InventoryAction.EMPTY_ENTIRE_ITEM
                         : InventoryAction.EMPTY_ITEM);
                 return;
             }
@@ -261,7 +261,7 @@ public class MEStorageScreen<C extends MEStorageMenu>
 
         if (entry == null) {
             // The only interaction allowed on an empty virtual slot is putting down the currently held item
-            if (clickType == ClickType.PICKUP && !getMenu().getCarried().isEmpty()) {
+            if (clickType == ContainerInput.PICKUP && !getMenu().getCarried().isEmpty()) {
                 InventoryAction action = mouseButton == 1 ? InventoryAction.SPLIT_OR_PLACE_SINGLE
                         : InventoryAction.PICKUP_OR_SET_DOWN;
                 menu.handleInteraction(-1, action);
@@ -519,7 +519,7 @@ public class MEStorageScreen<C extends MEStorageMenu>
         if (Minecraft.getInstance().options.keyPickItem.matchesMouse(event)) {
             Slot slot = this.getHoveredSlot(event.x(), event.y());
             if (slot instanceof RepoSlot repoSlot && repoSlot.isCraftable()) {
-                handleGridInventoryEntryMouseClick(repoSlot.getEntry(), event.button(), ClickType.CLONE);
+                handleGridInventoryEntryMouseClick(repoSlot.getEntry(), event.button(), ContainerInput.CLONE);
                 return true;
             }
         }
@@ -548,7 +548,7 @@ public class MEStorageScreen<C extends MEStorageMenu>
     }
 
     @Override
-    protected void slotClicked(Slot slot, int slotIdx, int mouseButton, ClickType clickType) {
+    protected void slotClicked(Slot slot, int slotIdx, int mouseButton, ContainerInput clickType) {
         if (slot instanceof RepoSlot repoSlot) {
             handleGridInventoryEntryMouseClick(repoSlot.getEntry(), mouseButton, clickType);
             return;

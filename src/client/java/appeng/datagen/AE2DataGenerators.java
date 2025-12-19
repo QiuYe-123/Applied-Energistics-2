@@ -23,6 +23,8 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 
+import appeng.datagen.providers.tags.VillagerTradeTagsProvider;
+import appeng.init.InitVillager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -85,6 +87,7 @@ public class AE2DataGenerators {
         pack.addProvider(packOutput -> new FluidTagsProvider(packOutput, registries));
         pack.addProvider(packOutput -> new BiomeTagsProvider(packOutput, registries));
         pack.addProvider(packOutput -> new PoiTypeTagsProvider(packOutput, registries));
+        pack.addProvider(packOutput -> new VillagerTradeTagsProvider(packOutput, registries));
         pack.addProvider(packOutput -> new DataComponentTypeTagProvider(packOutput, registries,
                 localization));
 
@@ -117,7 +120,9 @@ public class AE2DataGenerators {
                 .add(Registries.STRUCTURE, InitStructures::initDatagenStructures)
                 .add(Registries.STRUCTURE_SET, InitStructures::initDatagenStructureSets)
                 .add(Registries.BIOME, InitBiomes::init)
-                .add(Registries.DAMAGE_TYPE, AEDamageTypes::init);
+                .add(Registries.DAMAGE_TYPE, AEDamageTypes::init)
+                .add(Registries.TRADE_SET, InitVillager::bootstrapTradeSets)
+                .add(Registries.VILLAGER_TRADE, InitVillager::bootstrapTrades);
     }
 
     private static <T extends DataProvider> DataProvider.Factory<T> bindRegistries(

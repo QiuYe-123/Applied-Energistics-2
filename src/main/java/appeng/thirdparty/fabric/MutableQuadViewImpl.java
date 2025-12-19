@@ -179,7 +179,7 @@ public abstract class MutableQuadViewImpl extends QuadViewImpl implements QuadEm
         for (int i = 0; i < 4; i++) {
             var pos = quad.position(i);
             pos(i, pos.x(), pos.y(), pos.z());
-            var packedNormal = quad.bakedNormals().normals(i);
+            var packedNormal = quad.bakedNormals().normal(i);
             color(i, quad.bakedColors().color(i));
 
             float nx = ((byte) (packedNormal & 0xFF)) / 127.0f;

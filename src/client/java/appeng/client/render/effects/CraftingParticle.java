@@ -18,6 +18,7 @@
 
 package appeng.client.render.effects;
 
+import net.minecraft.util.LightCoordsUtil;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.Camera;
@@ -27,7 +28,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
@@ -87,8 +87,8 @@ public class CraftingParticle extends SingleQuadParticle {
     }
 
     @Override
-    protected int getLightColor(float partialTick) {
-        return LightTexture.FULL_BRIGHT;
+    protected int getLightCoords(float a) {
+        return LightCoordsUtil.FULL_BRIGHT;
     }
 
     @Override
@@ -178,8 +178,8 @@ public class CraftingParticle extends SingleQuadParticle {
         }
 
         @Override
-        protected int getLightColor(float partialTick) {
-            return CraftingParticle.this.getLightColor(partialTick);
+        protected int getLightCoords(float a) {
+            return CraftingParticle.this.getLightCoords(a);
         }
 
         @Override

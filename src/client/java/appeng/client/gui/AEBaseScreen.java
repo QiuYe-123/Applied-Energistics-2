@@ -54,7 +54,7 @@ import net.minecraft.network.chat.FontDescription;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -300,7 +300,7 @@ public abstract class AEBaseScreen<T extends AEBaseMenu> extends AbstractContain
         var emptyingAction = ContainerItemStrategies.getEmptyingAction(carried);
         if (emptyingAction != null) {
             var wrappedStack = GenericStack.wrapInItemStack(new GenericStack(emptyingAction.what(), 1));
-            if (configInv.isItemValid(slot.slot, wrappedStack)) {
+            if (configInv.isItemValid(slot.getSlotIndex(), wrappedStack)) {
                 return emptyingAction;
             }
         }
@@ -629,7 +629,7 @@ public abstract class AEBaseScreen<T extends AEBaseMenu> extends AbstractContain
     }
 
     @Override
-    protected void slotClicked(@Nullable Slot slot, int slotIdx, int mouseButton, ClickType clickType) {
+    protected void slotClicked(@Nullable Slot slot, int slotIdx, int mouseButton, ContainerInput clickType) {
 
         // Do not further process clicks on client-only slots
         if (getMenu().isClientSideSlot(slot)) {
@@ -642,7 +642,7 @@ public abstract class AEBaseScreen<T extends AEBaseMenu> extends AbstractContain
         }
 
         // Prevent cloning of wrapped itemstacks
-        if (clickType == ClickType.CLONE && slot != null && GenericStack.isWrapped(slot.getItem())) {
+        if (clickType == ContainerInput.CLONE && slot != null && GenericStack.isWrapped(slot.getItem())) {
             return;
         }
 
@@ -707,7 +707,7 @@ public abstract class AEBaseScreen<T extends AEBaseMenu> extends AbstractContain
                     if (inventorySlot != null && inventorySlot.mayPickup(getPlayer()) && inventorySlot.hasItem()
                             && isSameInventory(inventorySlot, slot)
                             && AbstractContainerMenu.canItemQuickReplace(inventorySlot, this.dbl_whichItem, true)) {
-                        this.slotClicked(inventorySlot, inventorySlot.index, 0, ClickType.QUICK_MOVE);
+                        this.slotClicked(inventorySlot, inventorySlot.index, 0, ContainerInput.QUICK_MOVE);
                     }
                 }
                 this.dbl_whichItem = ItemStack.EMPTY;
@@ -742,7 +742,7 @@ public abstract class AEBaseScreen<T extends AEBaseMenu> extends AbstractContain
 
         if (getMenu().getCarried().isEmpty() && theSlot != null) {
             if (this.minecraft.options.keySwapOffhand.matches(event)) {
-                this.slotClicked(theSlot, theSlot.index, Inventory.SLOT_OFFHAND, ClickType.SWAP);
+                this.slotClicked(theSlot, theSlot.index, Inventory.SLOT_OFFHAND, ContainerInput.SWAP);
                 return true;
             }
 
@@ -750,18 +750,18 @@ public abstract class AEBaseScreen<T extends AEBaseMenu> extends AbstractContain
                 if (getMinecraft().options.keyHotbarSlots[j].matches(event)) {
                     final List<Slot> slots = this.getInventorySlots();
                     for (Slot s : slots) {
-                        if (s.slot == j && s.container == this.menu.getPlayerInventory()
+                        if (s.getSlotIndex() == j && s.container == this.menu.getPlayerInventory()
                                 && !s.mayPickup(this.menu.getPlayerInventory().player)) {
                             return false;
                         }
                     }
 
                     if (theSlot.getMaxStackSize() == 64) {
-                        this.slotClicked(theSlot, theSlot.index, j, ClickType.SWAP);
+                        this.slotClicked(theSlot, theSlot.index, j, ContainerInput.SWAP);
                         return true;
                     } else {
                         for (Slot s : slots) {
-                            if (s.slot == j
+                            if (s.getSlotIndex() == j
                                     && s.container == this.menu.getPlayerInventory()) {
                                 ServerboundPacket message = new SwapSlotsPacket(s.index, theSlot.index);
                                 ClientPacketDistributor.sendToServer(message);

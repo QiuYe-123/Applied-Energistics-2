@@ -39,21 +39,21 @@ public final class TransformLogic {
 
     public static boolean canTransformInFluid(ItemEntity entity, FluidState fluid) {
         if (entity.level() instanceof ServerLevel serverLevel) {
-            return getTransformableItems(serverLevel, fluid.getType()).contains(entity.getItem().getItemHolder());
+            return getTransformableItems(serverLevel, fluid.getType()).contains(entity.getItem().typeHolder());
         }
         return false;
     }
 
     public static boolean canTransformInAnyFluid(ItemEntity entity) {
         if (entity.level() instanceof ServerLevel serverLevel) {
-            return getTransformableItemsAnyFluid(serverLevel).contains(entity.getItem().getItemHolder());
+            return getTransformableItemsAnyFluid(serverLevel).contains(entity.getItem().typeHolder());
         }
         return false;
     }
 
     public static boolean canTransformInExplosion(ItemEntity entity) {
         if (entity.level() instanceof ServerLevel serverLevel) {
-            return getTransformableItemsExplosion(serverLevel).contains(entity.getItem().getItemHolder());
+            return getTransformableItemsExplosion(serverLevel).contains(entity.getItem().typeHolder());
         }
         return false;
     }

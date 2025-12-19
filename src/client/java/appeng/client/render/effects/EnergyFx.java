@@ -91,7 +91,7 @@ public class EnergyFx extends SingleQuadParticle {
                 this.getV0(),
                 this.getV1(),
                 ARGB.colorFromFloat(alpha, this.rCol, this.gCol, this.bCol),
-                this.getLightColor(partialTick));
+                this.getLightCoords(partialTick));
     }
 
     @Override

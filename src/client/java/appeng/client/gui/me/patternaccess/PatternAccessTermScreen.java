@@ -45,7 +45,7 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
@@ -317,7 +317,7 @@ public class PatternAccessTermScreen<C extends PatternAccessTermMenu> extends AE
     }
 
     @Override
-    protected void slotClicked(Slot slot, int slotIdx, int mouseButton, ClickType clickType) {
+    protected void slotClicked(Slot slot, int slotIdx, int mouseButton, ContainerInput clickType) {
         if (slot instanceof PatternSlot) {
             InventoryAction action = null;
 
@@ -343,7 +343,7 @@ public class PatternAccessTermScreen<C extends PatternAccessTermMenu> extends AE
 
             if (action != null) {
                 PatternSlot machineSlot = (PatternSlot) slot;
-                final InventoryActionPacket p = new InventoryActionPacket(action, machineSlot.slot,
+                final InventoryActionPacket p = new InventoryActionPacket(action, machineSlot.getSlotIndex(),
                         machineSlot.getMachineInv().getServerId());
                 ClientPacketDistributor.sendToServer(p);
             }
@@ -351,7 +351,7 @@ public class PatternAccessTermScreen<C extends PatternAccessTermMenu> extends AE
             return;
         }
 
-        if (clickType == ClickType.QUICK_MOVE && menu.isPlayerSideSlot(slot)) {
+        if (clickType == ContainerInput.QUICK_MOVE && menu.isPlayerSideSlot(slot)) {
             Set<Long> visiblePatternContainers = new LinkedHashSet<>();
             for (var row : this.rows) {
                 if (row instanceof SlotsRow slotsRow) {

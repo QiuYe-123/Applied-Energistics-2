@@ -172,7 +172,7 @@ public class FacadeItem extends AEBaseItem implements IFacadeItem {
 
     public ItemStack createFacadeForItemUnchecked(ItemStack itemStack) {
         var is = new ItemStack(this);
-        is.set(AEComponents.FACADE_ITEM, itemStack.getItemHolder());
+        is.set(AEComponents.FACADE_ITEM, itemStack.typeHolder());
         return is;
     }
 

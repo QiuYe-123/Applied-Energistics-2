@@ -23,11 +23,11 @@ import java.util.function.Function;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.util.LightCoordsUtil;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.SimpleModelWrapper;
@@ -77,9 +77,9 @@ public class MEChestRenderer implements BlockEntityRenderer<MEChestBlockEntity, 
         // Calculate the lightlevel in front of the drive for lighting the exposed cell model.
         if (be.getLevel() != null) {
             var frontPos = be.getBlockPos().relative(be.getFront());
-            state.frontLightCoords = LevelRenderer.getLightColor(be.getLevel(), frontPos);
+            state.frontLightCoords = LevelRenderer.getLightCoords(be.getLevel(), frontPos);
         } else {
-            state.frontLightCoords = LightTexture.FULL_BRIGHT;
+            state.frontLightCoords = LightCoordsUtil.FULL_BRIGHT;
         }
 
         var blockOrientation = BlockOrientation.get(be);

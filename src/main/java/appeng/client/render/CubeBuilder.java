@@ -24,9 +24,9 @@ import java.util.function.Consumer;
 
 import com.google.common.base.Preconditions;
 
+import net.minecraft.util.LightCoordsUtil;
 import org.joml.Vector4f;
 
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
@@ -144,7 +144,7 @@ public class CubeBuilder {
         if (emissiveMaterial) {
             // Force Brightness to 15, this is for full bright mode
             // this vertex element will only be present in that case
-            int lightmap = LightTexture.pack(15, 15);
+            int lightmap = LightCoordsUtil.pack(15, 15);
             emitter.lightmap(lightmap, lightmap, lightmap, lightmap);
         }
 

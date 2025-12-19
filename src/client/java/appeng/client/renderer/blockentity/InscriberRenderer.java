@@ -21,11 +21,11 @@ package appeng.client.renderer.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.util.LightCoordsUtil;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -80,9 +80,9 @@ public final class InscriberRenderer implements BlockEntityRenderer<InscriberBlo
         // Calculate the lightlevel in front of the drive for lighting the exposed cell model.
         if (be.getLevel() != null) {
             var frontPos = be.getBlockPos().relative(be.getFront());
-            state.frontLightCoords = LevelRenderer.getLightColor(be.getLevel(), frontPos);
+            state.frontLightCoords = LevelRenderer.getLightCoords(be.getLevel(), frontPos);
         } else {
-            state.frontLightCoords = LightTexture.FULL_BRIGHT;
+            state.frontLightCoords = LightCoordsUtil.FULL_BRIGHT;
         }
 
         state.orientation = BlockOrientation.get(be);

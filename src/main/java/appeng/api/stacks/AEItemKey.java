@@ -43,7 +43,7 @@ public final class AEItemKey extends AEKey {
                             item -> item.is(Items.AIR.builtInRegistryHolder())
                                     ? DataResult.error(() -> "Item must not be minecraft:air")
                                     : DataResult.success(item))
-                            .fieldOf("id").forGetter(key -> key.stack.getItemHolder()),
+                            .fieldOf("id").forGetter(key -> key.stack.typeHolder()),
                     DataComponentPatch.CODEC.optionalFieldOf("components", DataComponentPatch.EMPTY)
                             .forGetter(key -> key.stack.getComponentsPatch()))
                     .apply(builder, (item, componentPatch) -> new AEItemKey(new ItemStack(item, 1, componentPatch))));

@@ -39,7 +39,7 @@ public class GameTestPlotAdapter extends GameTestInstance {
                     Identifier.CODEC.fieldOf("plotId").forGetter(GameTestPlotAdapter::plotId))
                     .apply(builder, GameTestPlotAdapter::new));
 
-    protected GameTestPlotAdapter(TestData<Holder<TestEnvironmentDefinition>> testData,
+    protected GameTestPlotAdapter(TestData<Holder<TestEnvironmentDefinition<?>>> testData,
             Identifier plotId) {
         super(testData);
         this.plotId = plotId;
@@ -75,7 +75,7 @@ public class GameTestPlotAdapter extends GameTestInstance {
                 continue;
             }
 
-            Holder<TestEnvironmentDefinition> environment = Holder.direct(new TestEnvironmentDefinition.AllOf());
+            Holder<TestEnvironmentDefinition<?>> environment = Holder.direct(new TestEnvironmentDefinition.AllOf());
             var testData = new TestData<>(
                     environment,
                     plot.getId(),
