@@ -251,7 +251,8 @@ public class CPUSelectionList implements ICompositeWidget {
     }
 
     private String formatStorage(CraftingStatusMenu.CraftingCpuListEntry cpu) {
-        return (cpu.storage() / 1024) + "k";
+        Tooltips.Amount storageAmount = Tooltips.getByteAmount(cpu.storage());
+        return storageAmount.digit() + storageAmount.unit();
     }
 
     private Component getCpuName(CraftingStatusMenu.CraftingCpuListEntry cpu) {
