@@ -248,13 +248,8 @@ public class CPUSelectionList implements ICompositeWidget {
     }
 
     private String formatStorage(CraftingStatusMenu.CraftingCpuListEntry cpu) {
-        long storage = cpu.storage();
-
-        if (storage >= 1024 * 1024) {
-            return (storage / (1024 * 1024)) + "M";
-        } else {
-            return (storage / 1024) + "k";
-        }
+        Tooltips.Amount storage = Tooltips.getByteAmount(cpu.storage());
+        return storage.digit() + storage.unit();
     }
 
     private Component getCpuName(CraftingStatusMenu.CraftingCpuListEntry cpu) {
