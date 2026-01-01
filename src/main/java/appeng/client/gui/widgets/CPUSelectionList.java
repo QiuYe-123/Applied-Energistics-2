@@ -231,7 +231,8 @@ public class CPUSelectionList implements ICompositeWidget {
 
                 if (cpu.coProcessors() > 0) {
                     infoBar.add(Icon.S_PROCESSOR, 1f, x + 2, y + 9);
-                    String coProcessorCount = String.valueOf(cpu.coProcessors());
+                    Tooltips.Amount ProcessorCount = Tooltips.getAmount(cpu.coProcessors());
+                    String coProcessorCount = ProcessorCount.digit() + ProcessorCount.unit();
                     infoBar.add(coProcessorCount, textColor.toARGB(), 0.666f, x + 14, y + 13);
                 }
 
